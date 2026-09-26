@@ -13,7 +13,7 @@ public class InvoiceController {
 
     private final InvoiceService invoiceService;
 
-    // Конструктор вручную
+
     public InvoiceController(InvoiceService invoiceService) {
         this.invoiceService = invoiceService;
     }

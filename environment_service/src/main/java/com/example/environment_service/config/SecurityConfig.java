@@ -24,11 +24,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // CORS preflight
+
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        // Публичные GET
+
                         .requestMatchers(HttpMethod.GET, "/sensors/**").permitAll()
-                        // Остальное — с токеном
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

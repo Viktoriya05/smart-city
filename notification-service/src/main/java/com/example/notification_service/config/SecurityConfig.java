@@ -24,11 +24,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // CORS preflight
+
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        // POST /notifications — «внутренний», без токена
+
                         .requestMatchers(HttpMethod.POST, "/notifications").permitAll()
-                        // Остальное — с токеном
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

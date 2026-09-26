@@ -17,7 +17,7 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
-    // Конструктор вручную
+
     public PaymentController(PaymentService paymentService) {
         this.paymentService = paymentService;
     }
