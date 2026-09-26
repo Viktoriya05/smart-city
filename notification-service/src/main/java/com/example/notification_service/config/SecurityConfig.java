@@ -3,6 +3,7 @@ package com.example.notification_service.config;
 import com.example.notification_service.security.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -23,9 +24,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // POST /notifications — «внутренний» API, разрешён без токена
-                        .requestMatchers("/notifications").permitAll()
-                        // Всё остальное — с токеном
+                        // CORS preflight
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // POST /notifications — «внутренний», без токена
+                        .requestMatchers(HttpMethod.POST, "/notifications").permitAll()
+                        // Остальное — с токеном
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

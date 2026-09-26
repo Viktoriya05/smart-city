@@ -14,7 +14,6 @@ public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
 
-    // Конструктор вручную — не зависим от Lombok
     public SecurityConfig(JwtFilter jwtFilter) {
         this.jwtFilter = jwtFilter;
     }
@@ -25,11 +24,13 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Webhook — публичный (вызывает платёжная система)
+                        // CORS preflight
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // Webhook — публичный
                         .requestMatchers(HttpMethod.POST, "/payments/webhook/success").permitAll()
                         // Счета — публичные для просмотра
                         .requestMatchers(HttpMethod.GET, "/accounts/**").permitAll()
-                        // Всё остальное — нужен токен
+                        // Остальное — с токеном
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
