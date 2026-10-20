@@ -59,15 +59,9 @@
     - Notification (8086)
 
 Базы данных создаются автоматически при первом запуске (`createDatabaseIfNotExist=true`), таблицы — через Hibernate (`ddl-auto: update`).
+но на всякий случай в проект в папке БД загружены файлы баз данных с тестовыми данными.
 
-### Проверка
-
-- Identity: http://localhost:8081
-- Transport: http://localhost:8082/vehicles
-- Utility: http://localhost:8083/issues
-- Environment: http://localhost:8084/sensors
-- Billing: http://localhost:8085/accounts/1/invoices
-- Notification: http://localhost:8086 (не имеет GET-эндпоинтов)
+Демонстрация происходит через дашборд index.html
 
 ## API
 
